@@ -28,7 +28,12 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<Map<String, String>> handleOwnership( DataIntegrityViolationException ex ) {
+    public ResponseEntity<Map<String, String>> handlePreregistered( DataIntegrityViolationException ex ) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("error", "Email Already Registered!"));
+    }
+
+    @ExceptionHandler(InvalidCredentialsException.class)
+    public ResponseEntity<Map<String,String>> handleCredentialMismatch(InvalidCredentialsException ex){
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", ex.getMessage()));
     }
 }

@@ -1,6 +1,7 @@
 package com.akshay.taskmanager.controller;
 
 
+import com.akshay.taskmanager.dto.LoginRequest;
 import com.akshay.taskmanager.dto.UserRequest;
 import com.akshay.taskmanager.service.UserService;
 import jakarta.validation.Valid;
@@ -26,5 +27,12 @@ public class UserController {
     public ResponseEntity<String> createUser(@Valid @RequestBody UserRequest request){
         userService.createUser(request);
         return ResponseEntity.status(HttpStatus.CREATED).body("User Created Successfully");
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@Valid @RequestBody LoginRequest request)
+    {
+        String token = userService.login(request);
+        return ResponseEntity.ok(token);
     }
 }
