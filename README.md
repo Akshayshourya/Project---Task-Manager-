@@ -82,16 +82,16 @@ JWT tokens remain valid until expiration, keeping the backend completely **state
 ---
 
 ## 🧱 Project Structure
-src/main/java/com/akshay/taskmanager
-│
-├── controller → REST controllers
-├── service → Business logic
-├── repository → Database access layer
-├── entity → JPA entities
-├── dto → Request & response DTOs
-├── security → JWT utilities and filters
-├── exception → Custom exceptions & global handler
-└── config → Security and application configuration
+- src/main/java/com/akshay/taskmanager
+- │
+- ├── controller → REST controllers
+- ├── service → Business logic
+- ├── repository → Database access layer
+- ├── entity → JPA entities
+- ├── dto → Request & response DTOs
+- ├── security → JWT utilities and filters
+- ├── exception → Custom exceptions & global handler
+- └── config → Security and application configuration
 ---
 
 ## ⚙️ Setup & Run Locally
