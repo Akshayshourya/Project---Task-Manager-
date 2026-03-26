@@ -12,6 +12,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
     private String name, password;
 
     @Column(unique = true)
@@ -58,5 +61,13 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }
