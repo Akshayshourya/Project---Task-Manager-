@@ -10,6 +10,8 @@ import com.akshay.taskmanager.exception.UserNotFoundException;
 import com.akshay.taskmanager.repository.TaskRepository;
 import com.akshay.taskmanager.repository.UserRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -40,15 +42,15 @@ public class TaskService {
         return taskRepository.save(task);
     }
 
-    public List<TaskResponse> getTasksOfUser(Long userid){
+    public Page<TaskResponse> getTasksOfUser(Long userid, Pageable pageable){
         userRepository.findById(userid).orElseThrow(() -> new UserNotFoundException(userid) );
 
-        return taskRepository.findByUserId(userid).stream().map(Task -> new TaskResponse(
+        return taskRepository.findByUserId(userid,pageable).map(Task -> new TaskResponse(
                 Task.getId(),
                 Task.getTitle(),
                 Task.getDescription(),
                 Task.isCompleted()
-        )).toList();
+        ));
     }
 
     public void markTaskCompleted(Long userId, Long taskId) {

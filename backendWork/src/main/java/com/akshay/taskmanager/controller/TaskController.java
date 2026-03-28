@@ -7,6 +7,9 @@ import com.akshay.taskmanager.repository.TaskRepository;
 import com.akshay.taskmanager.security.CustomUserDetails;
 import com.akshay.taskmanager.service.TaskService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -36,9 +39,9 @@ public class TaskController {
     }
 
     @GetMapping
-    public List<TaskResponse> getTasks(@AuthenticationPrincipal CustomUserDetails userDetails){
+    public Page<TaskResponse> getTasks(@AuthenticationPrincipal CustomUserDetails userDetails, @PageableDefault(size = 5 ) Pageable pageable){
         Long userid = userDetails.getId();
-        return taskService.getTasksOfUser(userid);
+        return taskService.getTasksOfUser(userid, pageable);
     }
 
     @PatchMapping("/{taskId}/complete")
