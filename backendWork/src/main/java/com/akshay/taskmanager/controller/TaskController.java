@@ -6,7 +6,9 @@ import com.akshay.taskmanager.entity.Task;
 import com.akshay.taskmanager.repository.TaskRepository;
 import com.akshay.taskmanager.security.CustomUserDetails;
 import com.akshay.taskmanager.service.TaskService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@SecurityRequirement(name = "bearerAuth")
 @RequestMapping("/tasks")
 public class TaskController {
 
@@ -39,9 +42,9 @@ public class TaskController {
     }
 
     @GetMapping
-    public Page<TaskResponse> getTasks(@AuthenticationPrincipal CustomUserDetails userDetails, @PageableDefault(size = 5 ) Pageable pageable){
+    public Page<TaskResponse> getTasks(@AuthenticationPrincipal CustomUserDetails userDetails, @ParameterObject Pageable pageable, @RequestParam(required = false) Boolean completed){
         Long userid = userDetails.getId();
-        return taskService.getTasksOfUser(userid, pageable);
+        return taskService.getTasksOfUser(userid, pageable, completed);
     }
 
     @PatchMapping("/{taskId}/complete")

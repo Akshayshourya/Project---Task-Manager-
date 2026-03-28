@@ -42,10 +42,16 @@ public class TaskService {
         return taskRepository.save(task);
     }
 
-    public Page<TaskResponse> getTasksOfUser(Long userid, Pageable pageable){
+    public Page<TaskResponse> getTasksOfUser(Long userid, Pageable pageable, Boolean completed){
         userRepository.findById(userid).orElseThrow(() -> new UserNotFoundException(userid) );
 
-        return taskRepository.findByUserId(userid,pageable).map(Task -> new TaskResponse(
+        Page<Task> page;
+        if(completed == null)
+          page = taskRepository.findByUserId(userid,pageable);
+        else
+           page = taskRepository.findByUserIdAndCompleted(userid,pageable,completed);
+
+        return page.map(Task -> new TaskResponse(
                 Task.getId(),
                 Task.getTitle(),
                 Task.getDescription(),
@@ -62,7 +68,7 @@ public class TaskService {
         Task task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new TaskNotFoundException(taskId));
 
-        // business rule: task must belong to user
+        // task must belong to user
         if (!task.getUser().getId().equals(userId)) {
             throw new TaskOwnerException();
         }

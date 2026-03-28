@@ -9,4 +9,5 @@ import java.util.List;
 
 public interface  TaskRepository extends JpaRepository<Task,Long> {
     Page<Task> findByUserId(Long userId, Pageable pageable);
+    Page<Task> findByUserIdAndCompleted(Long userId , Pageable pageable , Boolean Completed);
 }
