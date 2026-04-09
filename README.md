@@ -1,15 +1,26 @@
-# ✅ Task Manager - Backend API
+# ✅ Task Manager - Full Stack Application
 
-A RESTful **Task Manager backend application** built using **Java and Spring Boot**, featuring **JWT-based authentication**, clean layered architecture, and **MySQL database integration**. 
+A RESTful **Task Manager backend application** built using **Java and Spring Boot**, featuring **JWT-based authentication**, clean layered architecture, and **MySQL database integration**.
 
-Ideally designed for decoupled frontends, this project demonstrates real-world backend development practices including secure API design, stateless authentication, and scalable project structuring. *(Note: A React frontend is currently in the early stages of development and will be part of a future full-stack update).*
+Ideally designed for decoupled frontends, this project demonstrates real-world backend development practices including secure API design, stateless authentication, and scalable project structuring. _(Note: A React frontend is currently in the early stages of development and will be part of a future full-stack update)._
 
 ---
 
 ## 🚀 Features
 
+### Frontend (React + Vite)
+
+- User login interface
+- Fetch and display tasks dynamically over REST API
+- Mark tasks as completed
+- Token storage in LocalStorage
+  (More In development)
+
+### Backend (Java Spring Boot)
+
 - User registration and login
 - Secure stateless authentication using **JWT (JSON Web Tokens)**
+- 🔐 **Role-based Authorization** (e.g., ADMIN vs USER) built into controllers
 - Robust API security with **Spring Security**
 - Password hashing using **BCrypt**
 - Global exception handling with meaningful HTTP status codes
@@ -18,20 +29,22 @@ Ideally designed for decoupled frontends, this project demonstrates real-world b
   - Create tasks
   - Fetch user-specific tasks
   - Mark tasks as completed
+  - 📄 **Pagination Support** implementation
+- Task Management API endpoint protection
 
 ---
 
 ## 🛠 Tech Stack
 
-| Category | Technology |
-|-------|-----------|
-| Language | Java 21 |
-| Framework | Spring Boot 3.5.x |
-| Security | Spring Security, JWT |
-| Database | MySQL |
-| ORM | JPA / Hibernate |
-| Build Tool | Maven |
-| API Docs | Springdoc OpenAPI (Swagger) |
+| Category   | Technology                  |
+| ---------- | --------------------------- |
+| Frontend   | React 19, Vite              |
+| Backend    | Java 21, Spring Boot 3.5.x  |
+| Security   | Spring Security, JWT        |
+| Database   | MySQL                       |
+| ORM        | JPA / Hibernate             |
+| Build Tool | Maven                       |
+| API Docs   | Springdoc OpenAPI (Swagger) |
 
 ---
 
@@ -50,20 +63,18 @@ Ideally designed for decoupled frontends, this project demonstrates real-world b
 
 ---
 
-## 🧱 Project Structure (Backend)
+## 🧱 Project Structure
 
 ```text
-backendWork/
-├── src/main/java/com/akshay/taskmanager
-│   ├── controller → REST controllers
-│   ├── service    → Business logic
-│   ├── repository → Database access layer
-│   ├── entity     → JPA entities
-│   ├── dto        → Request & response objects
-│   ├── security   → JWT utilities and filters
-│   ├── exception  → Custom exceptions & global handler
-│   └── config     → Application and security configuration
-└── pom.xml
+Project--Task-Manager/
+├── frontend/             → React SPA application
+│   ├── src/              → Component and logic
+│   ├── index.html        → Entry point
+│   ├── package.json      → Dependency configuration
+│   └── vite.config.js    → Vite builder config
+└── backendWork/          → Spring Boot Application
+    ├── src/main/java...  → REST controllers, Logic, Config
+    └── pom.xml           → Maven configuration
 ```
 
 ---
@@ -74,40 +85,28 @@ backendWork/
 
 ```bash
 git clone https://github.com/Akshayshourya/Project--Task-Manager.git
-cd Project--Task-Manager/backendWork
+cd Project--Task-Manager
 ```
 
-### 2️⃣ Configure MySQL Database
+### 2️⃣ Configure & Run Backend
 
-1. Create a MySQL database for the project:
-   ```sql
-   CREATE DATABASE task_manager;
-   ```
-2. Update `src/main/resources/application.properties` with your credentials:
-   ```properties
-   spring.datasource.url=jdbc:mysql://localhost:3306/task_manager
-   spring.datasource.username=root
-   spring.datasource.password=your_password
-
-   spring.jpa.hibernate.ddl-auto=update
-   spring.jpa.show-sql=true
-
-   jwt.secret=your_secret_key
-   jwt.expiration=86400000
-   ```
-
-### 3️⃣ Run the application
+1. Create a MySQL database named `task_manager`.
+2. Update `backendWork/src/main/resources/application.properties` with your MySQL credentials, as well as `jwt.secret`.
+3. Start the Spring Boot server:
 
 ```bash
+cd backendWork
 ./mvnw spring-boot:run
 ```
-*The backend server will start at: `http://localhost:8080`*
+
+_The backend server will start at: `http://localhost:8080`_
 
 ---
 
 ## 🧪 API Testing & Documentation
 
 You can explore and test the backend APIs via:
+
 - **Swagger UI**: Visit `http://localhost:8080/swagger-ui.html` while the server is running.
 - API clients like **Postman**, **Insomnia**, or **cURL**.
 
@@ -118,27 +117,41 @@ Remember to include the JWT token in your `Authorization` header when targeting 
 ## 🎯 Project Purpose
 
 This project is built to:
+
 - Strengthen backend fundamentals using Spring Boot.
 - Deepen understanding of modern authentication using JSON Web Tokens.
 - Practice scalable, clean architecture principles.
 - Simulate end-to-end real-world backend workflows.
 
+## 🔐 Authentication Flow
+
+1. User submits email and password on the React frontend.
+2. The backend validates credentials and returns a **JWT token**.
+3. Frontend securely stores the JWT in `localStorage`.
+4. Subsequent API calls to get/update tasks send the token in the `Authorization` header (`Bearer <JWT_TOKEN>`).
+
+---
+
 ## 📌 Future Improvements
 
-- [ ] 🔐 Role-based authorization (e.g., ADMIN vs USER)
-- [ ] 🔁 Refresh token implementation for seamless sessions
-- [ ] ⚠️ Add pagination to user tasks
-- [ ] 🐳 Dockerization (Docker Compose for Database + Backend)
-- [ ] 🧪 Comprehensive Unit & Integration Testing
-- [ ] 🌐 **Frontend Integration (In Progress)**: Connecting the APIs to the WIP React client.
+### Frontend
+
+- [ ] 🎨 **Implement a UI library** like Tailwind CSS or Material-UI for a modern, responsive design.
+- [ ] 🛣️ **Add React Router** to structure the app into separate pages (Login, Dashboard, Profile).
+- [ ] 📦 **State Management**: Introduce Redux or Zustand for complex global state if the app grows.
+- [ ] ♻️ **Componentization**: Refactor `App.jsx` into modular, reusable components.
+
+### Backend
+
+- [ ] 🔁 **Refresh token implementation** for seamless sessions
+- [ ] 🐳 **Dockerization** (Docker Compose for Database + Backend + Frontend)
+- [ ] 🧪 Comprehensive **Unit & Integration Testing**
 
 ---
 
 ## 👤 Author
 
-**Akshay Shourya Jain**  
-Java Backend Developer  
+**Akshay Shourya Jain**
+
 - **GitHub**: [Akshayshourya](https://github.com/Akshayshourya)
 - **LinkedIn**: [Akshay Shourya Jain](https://www.linkedin.com/in/akshay-shourya-jain-3b158236a/)
-
-### ⭐ If you found this project helpful or inspiring, consider giving it a star on GitHub!
